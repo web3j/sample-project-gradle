@@ -23,7 +23,7 @@ contract greeter is mortal {
     }
 
     function newGreeting(string _greeting) public {
-        Modified(greeting, _greeting);
+        Modified(greeting, _greeting, greeting, _greeting);
         greeting = _greeting;
     }
 
@@ -32,5 +32,9 @@ contract greeter is mortal {
         return greeting;
     }
 
-    event Modified(string indexed oldGreeting, string indexed newGreeting);
+    /* we include indexed events to demonstrate the difference that can be
+    captured versus non-indexed */
+    event Modified(
+            string indexed oldGreetingIdx, string indexed newGreetingIdx,
+            string oldGreeting, string newGreeting);
 }
