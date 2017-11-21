@@ -14,7 +14,7 @@ In order to run this demo, three pieces of information are required:
 [command line tools](https://docs.web3j.io/command_line.html).
 1. Some Ether. This can be requested from the [Rinkeby Faucet](https://www.rinkeby.io/#faucet).
 
-Once these details have been added to the GreeterContractIT, you'll be good to go.
+Once these details have been added to the main Application class, you'll be good to go.
 
 
 ## Functionality
