@@ -10,7 +10,6 @@ import java.util.concurrent.Callable;
 import org.web3j.abi.EventEncoder;
 import org.web3j.abi.EventValues;
 import org.web3j.abi.TypeReference;
-import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Bool;
 import org.web3j.abi.datatypes.Event;
 import org.web3j.abi.datatypes.Function;
@@ -24,7 +23,7 @@ import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.core.methods.request.EthFilter;
 import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
-import org.web3j.tuples.generated.Tuple6;
+import org.web3j.tuples.generated.Tuple5;
 import org.web3j.tx.Contract;
 import org.web3j.tx.TransactionManager;
 import rx.Observable;
@@ -40,13 +39,12 @@ import rx.functions.Func1;
  * <p>Generated with web3j version 3.1.1.
  */
 public final class LociBackend extends Contract {
-    private static final String BINARY = "0x6060604052341561000f57600080fd5b336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055506103eb8061005e6000396000f300606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806339965a751461005c578063ee7d7a8b1461009b578063eff0f59214610100575b600080fd5b341561006757600080fd5b61008160048080356000191690602001909190505061019a565b604051808215151515815260200191505060405180910390f35b34156100a657600080fd5b6100fe6004808035600019169060200190919080359060200190919080359060200190919080356000191690602001909190803573ffffffffffffffffffffffffffffffffffffffff169060200190919050506101cc565b005b341561010b57600080fd5b610125600480803560001916906020019091905050610363565b60405180876000191660001916815260200186815260200185815260200184815260200183600019166000191681526020018273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001965050505050505060405180910390f35b600080600102600160008460001916600019168152602001908152602001600020600001546000191614159050919050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561022757600080fd5b6102308561019a565b15151561023c57600080fd5b84600019167fa842dc800f8d342c1af833ce08638680a422d46e9935f9fbbd0dacdd6b06d47c60405160405180910390a260c06040519081016040528086600019168152602001858152602001848152602001428152602001836000191681526020018273ffffffffffffffffffffffffffffffffffffffff16815250600160008760001916600019168152602001908152602001600020600082015181600001906000191690556020820151816001015560408201518160020155606082015181600301556080820151816004019060001916905560a08201518160050160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055509050505050505050565b60016020528060005260406000206000915090508060000154908060010154908060020154908060030154908060040154908060050160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff169050865600a165627a7a72305820f672a099e6f3735986573032d09565f2cb45e983f6320cda5181b9a90bbbeca70029";
+    private static final String BINARY = "0x6060604052341561000f57600080fd5b336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555061030f8061005e6000396000f300606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063208f59661461005c57806339965a75146100a2578063eff0f592146100e1575b600080fd5b341561006757600080fd5b6100a060048080356000191690602001909190803590602001909190803590602001909190803560001916906020019091905050610148565b005b34156100ad57600080fd5b6100c760048080356000191690602001909190505061027b565b604051808215151515815260200191505060405180910390f35b34156100ec57600080fd5b6101066004808035600019169060200190919050506102ad565b60405180866000191660001916815260200185815260200184815260200183815260200182600019166000191681526020019550505050505060405180910390f35b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156101a357600080fd5b6101ac8461027b565b1515156101b857600080fd5b83600019167fa842dc800f8d342c1af833ce08638680a422d46e9935f9fbbd0dacdd6b06d47c60405160405180910390a260a060405190810160405280856000191681526020018481526020018381526020014281526020018260001916815250600160008660001916600019168152602001908152602001600020600082015181600001906000191690556020820151816001015560408201518160020155606082015181600301556080820151816004019060001916905590505050505050565b600080600102600160008460001916600019168152602001908152602001600020600001546000191614159050919050565b600160205280600052604060002060009150905080600001549080600101549080600201549080600301549080600401549050855600a165627a7a72305820704a229b8ef5494a990832e243e9433608c4ae5dfbf4b14e09bf9c8e65e31dde0029";
 
     protected static final HashMap<String, String> _addresses;
 
     static {
         _addresses = new HashMap<>();
-        _addresses.put("3", "0xa8ea1dac284c259d7a345ae91f13c8c9b996094e");
     }
 
     private LociBackend(String contractAddress, Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
@@ -88,6 +86,14 @@ public final class LociBackend extends Contract {
         });
     }
 
+    public RemoteCall<TransactionReceipt> addNewClaim(Bytes32 _claimID, Uint256 _claimCreateDate, Uint256 _disclosureDate, Bytes32 _userId) {
+        Function function = new Function(
+                "addNewClaim", 
+                Arrays.<Type>asList(_claimID, _claimCreateDate, _disclosureDate, _userId), 
+                Collections.<TypeReference<?>>emptyList());
+        return executeRemoteCallTransaction(function);
+    }
+
     public RemoteCall<Bool> claimExist(Bytes32 _claimID) {
         Function function = new Function("claimExist", 
                 Arrays.<Type>asList(_claimID), 
@@ -95,30 +101,21 @@ public final class LociBackend extends Contract {
         return executeRemoteCallSingleValueReturn(function);
     }
 
-    public RemoteCall<TransactionReceipt> addNewClaim(Bytes32 _claimID, Uint256 _claimCreateDate, Uint256 _disclosureDate, Bytes32 _userId, Address _claimOwner) {
-        Function function = new Function(
-                "addNewClaim", 
-                Arrays.<Type>asList(_claimID, _claimCreateDate, _disclosureDate, _userId, _claimOwner), 
-                Collections.<TypeReference<?>>emptyList());
-        return executeRemoteCallTransaction(function);
-    }
-
-    public RemoteCall<Tuple6<Bytes32, Uint256, Uint256, Uint256, Bytes32, Address>> claims(Bytes32 param0) {
+    public RemoteCall<Tuple5<Bytes32, Uint256, Uint256, Uint256, Bytes32>> claims(Bytes32 param0) {
         final Function function = new Function("claims", 
                 Arrays.<Type>asList(param0), 
-                Arrays.<TypeReference<?>>asList(new TypeReference<Bytes32>() {}, new TypeReference<Uint256>() {}, new TypeReference<Uint256>() {}, new TypeReference<Uint256>() {}, new TypeReference<Bytes32>() {}, new TypeReference<Address>() {}));
-        return new RemoteCall<Tuple6<Bytes32, Uint256, Uint256, Uint256, Bytes32, Address>>(
-                new Callable<Tuple6<Bytes32, Uint256, Uint256, Uint256, Bytes32, Address>>() {
+                Arrays.<TypeReference<?>>asList(new TypeReference<Bytes32>() {}, new TypeReference<Uint256>() {}, new TypeReference<Uint256>() {}, new TypeReference<Uint256>() {}, new TypeReference<Bytes32>() {}));
+        return new RemoteCall<Tuple5<Bytes32, Uint256, Uint256, Uint256, Bytes32>>(
+                new Callable<Tuple5<Bytes32, Uint256, Uint256, Uint256, Bytes32>>() {
                     @Override
-                    public Tuple6<Bytes32, Uint256, Uint256, Uint256, Bytes32, Address> call() throws Exception {
+                    public Tuple5<Bytes32, Uint256, Uint256, Uint256, Bytes32> call() throws Exception {
                         List<Type> results = executeCallMultipleValueReturn(function);;
-                        return new Tuple6<Bytes32, Uint256, Uint256, Uint256, Bytes32, Address>(
+                        return new Tuple5<Bytes32, Uint256, Uint256, Uint256, Bytes32>(
                                 (Bytes32) results.get(0), 
                                 (Uint256) results.get(1), 
                                 (Uint256) results.get(2), 
                                 (Uint256) results.get(3), 
-                                (Bytes32) results.get(4), 
-                                (Address) results.get(5));
+                                (Bytes32) results.get(4));
                     }
                 });
     }
