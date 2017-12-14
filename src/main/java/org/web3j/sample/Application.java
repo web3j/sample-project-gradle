@@ -5,17 +5,22 @@ import java.math.BigDecimal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.web3j.abi.datatypes.*;
+import org.web3j.abi.datatypes.generated.*;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.sample.contracts.generated.Greeter;
+import org.web3j.tuples.generated.*;
 import org.web3j.tx.Contract;
 import org.web3j.tx.ManagedTransaction;
 import org.web3j.tx.Transfer;
 import org.web3j.utils.Convert;
 import org.web3j.utils.Numeric;
+
+import com.locipro.LociBackend;
 
 /**
  * A simple web3j application that demonstrates a number of core features of web3j:
@@ -52,60 +57,81 @@ public class Application {
     }
 
     private void run() throws Exception {
+        String testnet = "ropsten";
 
         // We start by creating a new web3j instance to connect to remote nodes on the network.
         // Note: if using web3j Android, use Web3jFactory.build(...
         Web3j web3j = Web3j.build(new HttpService(
-                "https://rinkeby.infura.io/<your token>"));  // FIXME: Enter your Infura token here;
+                "https://"+testnet+".infura.io/<infura api key>"));
         log.info("Connected to Ethereum client version: "
                 + web3j.web3ClientVersion().send().getWeb3ClientVersion());
 
         // We then need to load our Ethereum wallet file
-        // FIXME: Generate a new wallet file using the web3j command line tools https://docs.web3j.io/command_line.html
+        // Instructions for wallet file generation at: https://docs.web3j.io/command_line.html#wallet-tools
+        // You'll need to ensure your account has ether in order to deploy the contract and send transactions.
         Credentials credentials =
                 WalletUtils.loadCredentials(
-                        "<password>",
-                        "/path/to/<walletfile>");
+                        "<wallet password>",
+                        "/path/to/wallet-file.json");
         log.info("Credentials loaded");
 
-        // FIXME: Request some Ether for the Rinkeby test network at https://www.rinkeby.io/#faucet
-        log.info("Sending 1 Wei ("
-                + Convert.fromWei("1", Convert.Unit.ETHER).toPlainString() + " Ether)");
-        TransactionReceipt transferReceipt = Transfer.sendFunds(
-                web3j, credentials,
-                "0x19e03255f667bdfd50a32722df860b1eeaf4d635",  // you can put any address here
-                BigDecimal.ONE, Convert.Unit.WEI)  // 1 wei = 10^-18 Ether
-                .send();
-        log.info("Transaction complete, view it at https://rinkeby.etherscan.io/tx/"
-                + transferReceipt.getTransactionHash());
+        LociBackend contract;
+        String contractAddress = null; // Once you've run this once, paste the contract address here to interact with it
+        if (contractAddress == null) {
+            log.info("Deploying LociBackend");
+            contract = LociBackend.deploy(
+                    web3j, credentials,
+                    ManagedTransaction.GAS_PRICE, Contract.GAS_LIMIT).send();
+            contractAddress = contract.getContractAddress();
+            log.info("Smart contract deployed to address " + contractAddress);
+            log.info("View contract at https://"+testnet+".etherscan.io/address/" + contractAddress);
 
-        // Now lets deploy a smart contract
-        log.info("Deploying smart contract");
-        Greeter contract = Greeter.deploy(
-                web3j, credentials,
-                ManagedTransaction.GAS_PRICE, Contract.GAS_LIMIT,
-                "Hello blockchain world!").send();
-
-        String contractAddress = contract.getContractAddress();
-        log.info("Smart contract deployed to address " + contractAddress);
-        log.info("View contract at https://rinkeby.etherscan.io/address/" + contractAddress);
-
-        log.info("Value stored in remote smart contract: " + contract.greet().send());
-
-        // Lets modify the value in our smart contract
-        TransactionReceipt transactionReceipt = contract.newGreeting("Well hello again").send();
-
-        log.info("New value stored in remote smart contract: " + contract.greet().send());
-
-        // Events enable us to log specific events happening during the execution of our smart
-        // contract to the blockchain. Index events cannot be logged in their entirety.
-        // For Strings and arrays, the hash of values is provided, not the original value.
-        // For further information, refer to https://docs.web3j.io/filters.html#filters-and-events
-        for (Greeter.ModifiedEventResponse event : contract.getModifiedEvents(transactionReceipt)) {
-            log.info("Modify event fired, previous value: " + event.oldGreeting
-                    + ", new value: " + event.newGreeting);
-            log.info("Indexed event previous value: " + Numeric.toHexString(event.oldGreetingIdx)
-                    + ", new value: " + Numeric.toHexString(event.newGreetingIdx));
+        } else {
+            contract = LociBackend.load(
+                contractAddress,
+                web3j,
+                credentials,
+                ManagedTransaction.GAS_PRICE, Contract.GAS_LIMIT);
         }
+
+        // Change this if you want to add a new claim
+        String claimID = "foo";
+
+        Bool exists = contract.claimExist(stringToBytes32(claimID)).send();
+
+        if (exists.getValue()) {
+            log.info(claimID + " claim exists. Here is its data....");
+            Tuple6<Bytes32,Uint256,Uint256,Uint256,Bytes32,Address> claimData =
+                contract.claims(stringToBytes32(claimID)).send();
+            log.info("claimCreateDate: " + claimData.getValue2().getValue());
+            log.info("disclosureDate: " + claimData.getValue3().getValue());
+            log.info("timestamp: " + claimData.getValue4().getValue());
+            log.info("userId: " + new String(claimData.getValue5().getValue()));
+            log.info("owner: " + claimData.getValue6().getValue());
+
+        } else {
+            log.info(claimID + " claim doesn't exist. Claim it!");
+            TransactionReceipt transactionReceipt = contract.addNewClaim(
+                stringToBytes32(claimID),
+                new Uint256(10),
+                new Uint256(20),
+                stringToBytes32("vbuterin"),
+                new Address("0xa8ea1dac284c259d7a345ae91f13c8c9b996094e")).send();
+
+            // Events enable us to log specific events happening during the execution of our smart
+            // contract to the blockchain. Index events cannot be logged in their entirety.
+            // For Strings and arrays, the hash of values is provided, not the original value.
+            // For further information, refer to https://docs.web3j.io/filters.html#filters-and-events
+            for (LociBackend.ClaimAddedEventResponse event : contract.getClaimAddedEvents(transactionReceipt)) {
+                log.info("ClaimAdded event fired, claimID: " + new String(event.claimID.getValue()));
+            }
+        }
+    }
+
+    public static Bytes32 stringToBytes32(String string) {
+        byte[] byteValue = string.getBytes();
+        byte[] byteValueLen32 = new byte[32];
+        System.arraycopy(byteValue, 0, byteValueLen32, 0, byteValue.length);
+        return new Bytes32(byteValueLen32);
     }
 }
