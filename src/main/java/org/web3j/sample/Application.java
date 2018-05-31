@@ -56,7 +56,7 @@ public class Application {
         // We start by creating a new web3j instance to connect to remote nodes on the network.
         // Note: if using web3j Android, use Web3jFactory.build(...
         Web3j web3j = Web3j.build(new HttpService(
-                "https://rinkeby.infura.io/<your token>"));  // FIXME: Enter your Infura token here;
+                "https://rinkeby.infura.io/pmUdYLK9l52gdIsifNsc"));  // FIXME: Enter your Infura token here;
         log.info("Connected to Ethereum client version: "
                 + web3j.web3ClientVersion().send().getWeb3ClientVersion());
 
@@ -64,8 +64,8 @@ public class Application {
         // FIXME: Generate a new wallet file using the web3j command line tools https://docs.web3j.io/command_line.html
         Credentials credentials =
                 WalletUtils.loadCredentials(
-                        "<password>",
-                        "/path/to/<walletfile>");
+                        "seba12345",
+                        "/Users/sebastianraba/Library/Ethereum/testnet/keystore/UTC--2018-05-31T13-32-01.48000000Z--e9f98820ff1dc334be80deea236ca00e97d2a38b.json");
         log.info("Credentials loaded");
 
         // FIXME: Request some Ether for the Rinkeby test network at https://www.rinkeby.io/#faucet
