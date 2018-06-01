@@ -1,6 +1,7 @@
 package org.web3j.sample;
 
 import java.math.BigDecimal;
+import java.util.Scanner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +47,7 @@ import org.web3j.utils.Numeric;
 public class Application {
 
     private static final Logger log = LoggerFactory.getLogger(Application.class);
+    Scanner s = new Scanner(System.in);
 
     public static void main(String[] args) throws Exception {
         new Application().run();
@@ -55,17 +57,26 @@ public class Application {
 
         // We start by creating a new web3j instance to connect to remote nodes on the network.
         // Note: if using web3j Android, use Web3jFactory.build(...
+        String homeDirectory = "/Users/sebastianraba/Desktop/sample-project-gradle";
+        log.info("Please enter your infura node:");
+        String node = s.nextLine();
+
+
         Web3j web3j = Web3j.build(new HttpService(
-                "https://rinkeby.infura.io/pmUdYLK9l52gdIsifNsc"));  // FIXME: Enter your Infura token here;
+                "https://rinkeby.infura.io/"+ node));  // FIXME: Enter your Infura token here;
         log.info("Connected to Ethereum client version: "
                 + web3j.web3ClientVersion().send().getWeb3ClientVersion());
 
         // We then need to load our Ethereum wallet file
         // FIXME: Generate a new wallet file using the web3j command line tools https://docs.web3j.io/command_line.html
+        log.info("Please provide your local wallet location:");
+        String walletFileLocation = s.nextLine();
+        log.info("Please provide your password for the above wallet:");
+        String walletPassword = s.nextLine();
         Credentials credentials =
                 WalletUtils.loadCredentials(
-                        "seba12345",
-                        "/Users/sebastianraba/Library/Ethereum/testnet/keystore/UTC--2018-05-31T13-32-01.48000000Z--e9f98820ff1dc334be80deea236ca00e97d2a38b.json");
+                        walletPassword,
+                        walletFileLocation);
         log.info("Credentials loaded");
 
         // FIXME: Request some Ether for the Rinkeby test network at https://www.rinkeby.io/#faucet
