@@ -57,26 +57,17 @@ public class Application {
 
         // We start by creating a new web3j instance to connect to remote nodes on the network.
         // Note: if using web3j Android, use Web3jFactory.build(...
-        String homeDirectory = "/Users/sebastianraba/Desktop/sample-project-gradle";
-        log.info("Please enter your infura node:");
-        String node = s.nextLine();
-
-
         Web3j web3j = Web3j.build(new HttpService(
-                "https://rinkeby.infura.io/"+ node));  // FIXME: Enter your Infura token here;
+                "https://rinkeby.infura.io/<your token>"));  // FIXME: Enter your Infura token here;
         log.info("Connected to Ethereum client version: "
                 + web3j.web3ClientVersion().send().getWeb3ClientVersion());
 
         // We then need to load our Ethereum wallet file
         // FIXME: Generate a new wallet file using the web3j command line tools https://docs.web3j.io/command_line.html
-        log.info("Please provide your local wallet location:");
-        String walletFileLocation = s.nextLine();
-        log.info("Please provide your password for the above wallet:");
-        String walletPassword = s.nextLine();
         Credentials credentials =
                 WalletUtils.loadCredentials(
-                        walletPassword,
-                        walletFileLocation);
+                        "<password>",
+                        "/path/to/<walletfile>");
         log.info("Credentials loaded");
 
         // FIXME: Request some Ether for the Rinkeby test network at https://www.rinkeby.io/#faucet
