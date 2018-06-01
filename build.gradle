@@ -10,7 +10,7 @@ repositories {
 }
 
 ext {
-    web3jVersion = '3.2.0'
+    web3jVersion = '3.4.0'
     logbackVersion = '1.2.3'
     junitVersion = '4.12'
 }
