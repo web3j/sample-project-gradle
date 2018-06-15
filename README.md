@@ -41,7 +41,7 @@ you can refer to the below.
 For a more comprehensive overview, I recommend you read the 
 [Java Magazine Article](https://web3j.io/articles/web3j%20article%20-%20Java%20Magazine%20JanuaryFebruary%202017.pdf), watch 
 the 
-[YouTube](youtube.com/watch?v=ea3miXs_P6Y) talk, and read all of the 
+[YouTube](https://youtube.com/watch?v=ea3miXs_P6Y) talk, and read all of the 
 [documentation](https://docs.web3j.io).
 
 ### Smart contracts
