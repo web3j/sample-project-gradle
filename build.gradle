@@ -1,7 +1,10 @@
-group 'org.web3j'
-version '0.0.1'
+plugins {
+    id 'java'
+    id 'org.web3j' version '0.1.4'
+}
 
-apply plugin: 'java'
+group 'org.web3j'
+version '0.1.0'
 
 sourceCompatibility = 1.8
 
@@ -9,8 +12,13 @@ repositories {
     mavenCentral()
 }
 
+web3j {
+    generatedPackageName = 'org.web3j.sample.contracts.generated'
+    excludedContracts = ['mortal']
+}
+
 ext {
-    web3jVersion = '3.4.0'
+    web3jVersion = '3.6.0'
     logbackVersion = '1.2.3'
     junitVersion = '4.12'
 }
