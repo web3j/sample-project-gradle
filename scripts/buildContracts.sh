@@ -3,7 +3,7 @@
 set -e
 set -o pipefail
 
-baseDir="../src/main/resources/solidity"
+baseDir="../src/main/solidity"
 
 targets="
 greeter/Greeter
