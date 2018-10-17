@@ -66,8 +66,8 @@ public class Application {
         // FIXME: Generate a new wallet file using the web3j command line tools https://docs.web3j.io/command_line.html
         Credentials credentials =
                 WalletUtils.loadCredentials(
-                        "qwertty123",
-                        "/home/pr/.ethereum/testnet/keystore/UTC--2018-10-17T17-25-57.599919000Z--90f8bf6a479f320ead074411a4b0e7944ea8c9c1.json");
+                        "<password>",
+                        "/path/to/<walletfile>");
         log.info("Credentials loaded");
 
         // FIXME: Request some Ether for the Rinkeby test network at https://www.rinkeby.io/#faucet
