@@ -42,3 +42,9 @@ docs/build
 
 # OS X
 .DS_Store
+
+# Generated wrappers
+src/main/java/org/web3j/sample/contracts/generated
+
+# Compiled contracts
+src/main/solidity/*/build
