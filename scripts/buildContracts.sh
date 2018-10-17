@@ -14,20 +14,18 @@ for target in ${targets}; do
     fileName=$(basename "${target}")
 
     cd $baseDir
-    echo "Compiling Solidity file ${target}.sol"
+    echo -n "Compiling Solidity file ${target}.sol"
 
     solc --bin --abi --optimize --overwrite \
-            --allow-paths "$(pwd)" \
-            ${dirName}/${fileName}.sol -o ${dirName}/build/
-    echo "Complete"
-
-    echo "Generating contract bindings"
+            ${dirName}/${fileName}.sol -o ${dirName}/build
+    printf "%b" "\e[1;32m\tComplete  \u2714\n\e[0m"
+    echo -n "Generating contract bindings"
     web3j solidity generate \
         ${dirName}/build/${fileName}.bin \
         ${dirName}/build/${fileName}.abi \
         -p org.web3j.sample.contracts.generated \
-        -o ../../java/ > /dev/null
-    echo "Complete"
+        -o ../../main/java/ > /dev/null
+    printf "%b" "\e[1;32m\t\t\tComplete  \u2714\n\e[0m"
 
-    cd -
+    cd - 2>&1 >/dev/null
 done
