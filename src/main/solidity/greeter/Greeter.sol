@@ -1,4 +1,4 @@
-pragma solidity ^0.4.2;
+pragma solidity ^0.4.25;
 
 // Modified Greeter contract. Based on example at https://www.ethereum.org/greeter.
 
@@ -7,10 +7,10 @@ contract mortal {
     address owner;
 
     /* this function is executed at initialization and sets the owner of the contract */
-    function mortal() { owner = msg.sender; }
+    constructor () public { owner = msg.sender; }
 
     /* Function to recover the funds on the contract */
-    function kill() { if (msg.sender == owner) suicide(owner); }
+    function kill() public { if (msg.sender == owner) selfdestruct(owner); }
 }
 
 contract greeter is mortal {
@@ -18,17 +18,17 @@ contract greeter is mortal {
     string greeting;
 
     /* this runs when the contract is executed */
-    function greeter(string _greeting) public {
+    constructor (string _greeting) public {
         greeting = _greeting;
     }
 
     function newGreeting(string _greeting) public {
-        Modified(greeting, _greeting, greeting, _greeting);
+        emit Modified(greeting, _greeting, greeting, _greeting);
         greeting = _greeting;
     }
 
     /* main function */
-    function greet() constant returns (string) {
+    function greet() public constant returns (string)  {
         return greeting;
     }
 

@@ -14,6 +14,8 @@ import org.web3j.sample.contracts.generated.Greeter;
 import org.web3j.tx.Contract;
 import org.web3j.tx.ManagedTransaction;
 import org.web3j.tx.Transfer;
+import org.web3j.tx.gas.ContractGasProvider;
+import org.web3j.tx.gas.DefaultGasProvider;
 import org.web3j.utils.Convert;
 import org.web3j.utils.Numeric;
 
@@ -64,8 +66,8 @@ public class Application {
         // FIXME: Generate a new wallet file using the web3j command line tools https://docs.web3j.io/command_line.html
         Credentials credentials =
                 WalletUtils.loadCredentials(
-                        "<password>",
-                        "/path/to/<walletfile>");
+                        "qwertty123",
+                        "/home/pr/.ethereum/testnet/keystore/UTC--2018-10-17T17-25-57.599919000Z--90f8bf6a479f320ead074411a4b0e7944ea8c9c1.json");
         log.info("Credentials loaded");
 
         // FIXME: Request some Ether for the Rinkeby test network at https://www.rinkeby.io/#faucet
@@ -81,10 +83,13 @@ public class Application {
 
         // Now lets deploy a smart contract
         log.info("Deploying smart contract");
+        ContractGasProvider contractGasProvider = new DefaultGasProvider();
         Greeter contract = Greeter.deploy(
-                web3j, credentials,
-                ManagedTransaction.GAS_PRICE, Contract.GAS_LIMIT,
-                "Hello blockchain world!").send();
+                web3j,
+                credentials,
+                contractGasProvider,
+                "test"
+                ).send();
 
         String contractAddress = contract.getContractAddress();
         log.info("Smart contract deployed to address " + contractAddress);
