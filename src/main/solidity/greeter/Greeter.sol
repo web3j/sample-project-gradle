@@ -2,7 +2,7 @@ pragma solidity ^0.4.25;
 
 // Modified Greeter contract. Based on example at https://www.ethereum.org/greeter.
 
-contract mortal {
+contract Mortal {
     /* Define variable owner of the type address*/
     address owner;
 
@@ -13,7 +13,7 @@ contract mortal {
     function kill() public { if (msg.sender == owner) selfdestruct(owner); }
 }
 
-contract greeter is mortal {
+contract Greeter is Mortal {
     /* define variable greeting of the type string */
     string greeting;
 
