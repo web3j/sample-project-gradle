@@ -20,8 +20,19 @@ contract Greeter is Mortal {
         greeting = _greeting;
     }
 
+    function newGreeting(string memory _greeting) public {
+        emit Modified(greeting, _greeting, greeting, _greeting);
+        greeting = _greeting;
+    }
+
     /* Main function */
     function greet() public view returns (string memory) {
         return greeting;
     }
+
+    /* we include indexed events to demonstrate the difference that can be
+captured versus non-indexed */
+    event Modified(
+        string indexed oldGreetingIdx, string indexed newGreetingIdx,
+        string oldGreeting, string newGreeting);
 }
