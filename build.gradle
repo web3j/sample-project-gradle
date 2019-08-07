@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'org.web3j'
-version '4.4.0'
+version '0.2.0'
 
 sourceCompatibility = 1.8
 
