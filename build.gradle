@@ -1,10 +1,10 @@
 plugins {
     id 'java'
-    id 'org.web3j' version '4.1.2'
+    id 'org.web3j' version '4.4.0'
 }
 
 group 'org.web3j'
-version '0.1.2'
+version '0.2.0'
 
 sourceCompatibility = 1.8
 
@@ -18,7 +18,7 @@ web3j {
 }
 
 ext {
-    web3jVersion = '4.1.1'
+    web3jVersion = '4.4.0'
     logbackVersion = '1.2.3'
     junitVersion = '4.12'
 }
