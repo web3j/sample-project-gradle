@@ -82,7 +82,7 @@ section of the docs.
 ## Viewing requests
 
 A logback configuration is included in the project dependencies allowing the logging of protocol 
-messages if required. To enable, simply change the following line in the logback configuration
+messages if required. To enable, simply change the following line in the [logback configuration](https://github.com/web3j/sample-project-maven/blob/master/src/main/resources/logback.xml)
 to read:
 
 ```xml
