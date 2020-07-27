@@ -9,9 +9,8 @@ greeting message can be read and modified in the smart contract.
 In order to run this demo, three pieces of information are required:
 
 1. Ethereum client (or node) endpoint. The simplest thing to do is 
-[request a free access token](https://infura.io/register.html) from Infura.
-1. A wallet file. This can be generated using the web3j 
-[command line tools](https://docs.web3j.io/command_line.html).
+[request a free access token](https://infura.io/register) from Infura.
+1. A wallet file. This can be generated using the [Epirus CLI](https://docs.epirus.io/sdk/cli/). 
 1. Some Ether. This can be requested from the [Rinkeby Faucet](https://www.rinkeby.io/#faucet).
 
 Once these details have been added to the main Application class, you'll be good to go.
@@ -53,37 +52,37 @@ stored in the Greeter can be modified.
 The associated Java smart contract wrapper is named Greeter.
 
 For more background on smart contracts, refer to the 
-[smart contracts](https://docs.web3j.io/smart_contracts.html) section of the docs.
+[smart contracts](https://docs.web3j.io/smart_contracts/) section of the docs.
 
 
 ### Infura
 
 If you don't want to sign up to Infura, and would like to run a node yourself, there are 
-instructions in the [getting started](https://docs.web3j.io/getting_started.html#start-a-client) 
+instructions in the [getting started](https://docs.web3j.io/getting_started/#start-a-client) 
 section of the docs.
 
 ### Testnets
 
 For more information on the different Ethereum test networks (or testnets), refer 
 to the 
-[testnet overview](https://docs.web3j.io/transactions.html#ethereum-testnets) in the docs.
+[testnet overview](https://docs.web3j.io/transactions/#ethereum-testnets) in the docs.
 
 ### Ether
 
 For background on Ether, refer to the transactions 
-[overview](https://docs.web3j.io/transactions.html#transactions) section of the docs.
+[overview](https://docs.web3j.io/transactions/#transactions) section of the docs.
 
 ### Wallets and transaction signing
 
 For a more technical overview of working with wallet files, refer to the 
-[Offline transaction signing](https://docs.web3j.io/transactions.html#offline-transaction-signing)
+[Offline transaction signing](https://docs.web3j.io/transactions/#offline-transaction-signing)
 section of the docs.
  
 
 ## Viewing requests
 
 A logback configuration is included in the project dependencies allowing the logging of protocol 
-messages if required. To enable, simply change the following [line]() in the logback configuration
+messages if required. To enable, simply change the following line in the [logback configuration](https://github.com/web3j/sample-project-maven/blob/master/src/main/resources/logback.xml)
 to read:
 
 ```xml
